@@ -1,0 +1,359 @@
+Enter password: *****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 15
+Server version: 8.0.36 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2024, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> create database insurance;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> create table person
+    -> (Driver_id varchar(10),
+    -> Name varchar(20),
+    -> Address varchar(30),
+    -> primary key(Driver_id));
+ERROR 1046 (3D000): No database selected
+mysql> use INSURANCE;
+Database changed
+mysql> create table person
+    -> (Driver_id varchar(20),
+    -> Name varchar(20),
+    -> Address varchar(30),
+    -> primary key(Driver_id));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc person
+    -> ;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Driver_id | varchar(20) | NO   | PRI | NULL    |       |
+| Name      | varchar(20) | YES  |     | NULL    |       |
+| Address   | varchar(30) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> create table car
+    -> (Reg_num varchar(10),
+    -> Model varchar(10).year int,
+    -> primary key(Reg_num));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.year int,
+primary key(Reg_num))' at line 3
+mysql> create table car
+    -> (reg_num varchar(10),
+    -> Model varchar(10).year int,
+    -> primary key(reg_num));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.year int,
+primary key(reg_num))' at line 3
+mysql> create table car
+    -> (reg_num varchar(10),
+    -> Model varchar(10),
+    -> year int,
+    -> primary key(reg_num));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table accident
+    -> (Report_num int,
+    -> Accident_date date,
+    -> location varchar(20),
+    -> primary key(Report_num));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table owns
+    -> (
+    -> Driver_id varchar(10),
+    -> reg_num varchar(10),
+    -> primary key(Driver_id, reg_num),
+    -> foreign key(Driver_id) references person(Driver_id),
+    -> foreign key(reg_num references car(reg_num));
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'references car(reg_num))' at line 7
+mysql> create table owns
+    -> (Driver_id varchar(10),
+    -> reg_num varchar(10),
+    -> primary key(Driver_id, reg_num),
+    -> foreign key(Driver_id) references person(Driver_id),
+    -> foreign key(reg_num) references car(reg_num));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table participated
+    -> (Driver_id varchar(10),
+    -> reg_num varchar(10),
+    -> Report_num int,
+    -> Damage_amount int,
+    -> primary key(Driver_id, reg_num, report_num),
+    -> foreign key(Driver_id) references person(driver_id),
+    -> foreign key(reg_num) references car(reg_num),
+    -> foreign key(report_num) references accident(report_num));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc participated;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| Driver_id     | varchar(10) | NO   | PRI | NULL    |       |
+| reg_num       | varchar(10) | NO   | PRI | NULL    |       |
+| Report_num    | int         | NO   | PRI | NULL    |       |
+| Damage_amount | int         | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into person values(
+    -> 'A01',
+    -> 'Richard',
+    -> 'Srinivas Nagar');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into person values(
+    -> 'A02',
+    -> 'Pradeep',
+    -> 'Rajajinagar');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into person values(
+    -> 'A03',
+    -> 'Smith',
+    -> 'Ashok Nagar');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into person values(
+    -> 'A04',
+    -> 'Venu',
+    -> 'N R Colony');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into person values(
+    -> 'A05',
+    -> 'John',
+    -> 'Hanumanth Nagar');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from person
+    -> ;
++-----------+---------+-----------------+
+| Driver_id | Name    | Address         |
++-----------+---------+-----------------+
+| A01       | Richard | Srinivas Nagar  |
+| A02       | Pradeep | Rajajinagar     |
+| A03       | Smith   | Ashok Nagar     |
+| A04       | Venu    | N R Colony      |
+| A05       | John    | Hanumanth Nagar |
++-----------+---------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into car values(
+    -> 'KA052250','INDICA','1990');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into car values(
+    -> 'KA031181', 'LANCER','1990');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into car values(
+    -> 'KA095477','TOYOTA','1998');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into car values(
+    -> 'KA053408', 'HONDA',
+    -> '2008');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into car values(
+    -> 'KA041702','AUDI','2005');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from car;
++----------+--------+------+
+| reg_num  | Model  | year |
++----------+--------+------+
+| KA031181 | LANCER | 1990 |
+| KA041702 | AUDI   | 2005 |
+| KA052250 | INDICA | 1990 |
+| KA053408 | HONDA  | 2008 |
+| KA095477 | TOYOTA | 1998 |
++----------+--------+------+
+5 rows in set (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into accident values(
+    -> '11', '01-jan-03','Mysore road');
+ERROR 1292 (22007): Incorrect date value: '01-jan-03' for column 'Accident_date' at row 1
+mysql> insert into accident values(
+    -> '11','2003-01-01','Mysore Road');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into accident values(
+    -> '12', '2004-02-02','South End Circle');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into accident values(
+    -> '13','2003-01-21','Bull Temple Road');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into accident values(
+    -> '14', '2008-02-17','Mysore Road');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into accident values(
+    -> '15','2005-03-04','Kanakpura Road');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from accident
+    -> ;
++------------+---------------+------------------+
+| Report_num | Accident_date | location         |
++------------+---------------+------------------+
+|         11 | 2003-01-01    | Mysore Road      |
+|         12 | 2004-02-02    | South End Circle |
+|         13 | 2003-01-21    | Bull Temple Road |
+|         14 | 2008-02-17    | Mysore Road      |
+|         15 | 2005-03-04    | Kanakpura Road   |
++------------+---------------+------------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into own values(
+    -> 'A01','KA052250');
+ERROR 1146 (42S02): Table 'insurance.own' doesn't exist
+mysql> insert into owns values(
+    -> 'A01','KA052250');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into owns values(
+    -> 'A02','KA053408');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into owns values(
+    -> 'A02','KA031181');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into owns values(
+    -> 'A04','KA095477');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into owns values(
+    -> 'A05','KA041702');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> delete from owns values where reg_num = 'KA031181';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'values where reg_num = 'KA031181'' at line 1
+mysql> delete from owns where reg_num = 'KA031181';
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into owns values(
+    -> 'A03','KA031181');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select * from owns;
++-----------+----------+
+| Driver_id | reg_num  |
++-----------+----------+
+| A03       | KA031181 |
+| A05       | KA041702 |
+| A01       | KA052250 |
+| A02       | KA053408 |
+| A04       | KA095477 |
++-----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select * from owns desc Driver_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc Driver_id' at line 1
+mysql> select * from owns where desc Driver_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc Driver_id' at line 1
+mysql> desc owns;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| Driver_id | varchar(10) | NO   | PRI | NULL    |       |
+| reg_num   | varchar(10) | NO   | PRI | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from owns;
++-----------+----------+
+| Driver_id | reg_num  |
++-----------+----------+
+| A03       | KA031181 |
+| A05       | KA041702 |
+| A01       | KA052250 |
+| A02       | KA053408 |
+| A04       | KA095477 |
++-----------+----------+
+5 rows in set (0.00 sec)
+
+mysql> insert into participated values(
+    -> 'A01','KA052250','11','10000');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into participated values(
+    -> 'A02','KA053408','12','50000');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into participated values(
+    -> 'A03','KA095477','13','25000');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into participated values(
+    ->
+    -> 'A04','KA031181','14','3000');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into participated values(
+    -> 'A05','KA041702','15','5000');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> SELECT * FROM PARTICIPATED;
++-----------+----------+------------+---------------+
+| Driver_id | reg_num  | Report_num | Damage_amount |
++-----------+----------+------------+---------------+
+| A01       | KA052250 |         11 |         10000 |
+| A02       | KA053408 |         12 |         50000 |
+| A03       | KA095477 |         13 |         25000 |
+| A04       | KA031181 |         14 |          3000 |
+| A05       | KA041702 |         15 |          5000 |
++-----------+----------+------------+---------------+
+5 rows in set (0.00 sec)
+
+mysql> COMMIT;
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> insert into accident values ('16','2008-03-15','Domlur');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select accident_date, location
+    -> from accident;
++---------------+------------------+
+| accident_date | location         |
++---------------+------------------+
+| 2003-01-01    | Mysore Road      |
+| 2004-02-02    | South End Circle |
+| 2003-01-21    | Bull Temple Road |
+| 2008-02-17    | Mysore Road      |
+| 2005-03-04    | Kanakpura Road   |
+| 2008-03-15    | Domlur           |
++---------------+------------------+
+6 rows in set (0.00 sec)
+
+mysql> select driver_id
+    -> from participated
+    -> where damage_amount >=25000;
++-----------+
+| driver_id |
++-----------+
+| A02       |
+| A03       |
++-----------+
+2 rows in set (0.00 sec)
