@@ -155,7 +155,7 @@ mysql> insert into car values(
 Query OK, 1 row affected (0.00 sec)
 
 mysql> insert into car values(
-    -> 'KA031181', 'LANCER','1990');
+    -> 'KA031181', 'LANCER','1957');
 Query OK, 1 row affected (0.01 sec)
 
 mysql> insert into car values(
@@ -175,7 +175,7 @@ mysql> select * from car;
 +----------+--------+------+
 | reg_num  | Model  | year |
 +----------+--------+------+
-| KA031181 | LANCER | 1990 |
+| KA031181 | LANCER | 1957 |
 | KA041702 | AUDI   | 2005 |
 | KA052250 | INDICA | 1990 |
 | KA053408 | HONDA  | 2008 |
