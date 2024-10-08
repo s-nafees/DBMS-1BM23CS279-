@@ -14,23 +14,16 @@ Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 mysql> create database insurance;
 Query OK, 1 row affected (0.01 sec)
 
-mysql> create table person
-    -> (Driver_id varchar(10),
-    -> Name varchar(20),
-    -> Address varchar(30),
-    -> primary key(Driver_id));
-ERROR 1046 (3D000): No database selected
 mysql> use INSURANCE;
 Database changed
 mysql> create table person
     -> (Driver_id varchar(20),
     -> Name varchar(20),
     -> Address varchar(30),
-    -> primary key(Driver_id));
+    -> primary key(driver_id));
 Query OK, 0 rows affected (0.03 sec)
 
-mysql> desc person
-    -> ;
+mysql> desc person;
 +-----------+-------------+------+-----+---------+-------+
 | Field     | Type        | Null | Key | Default | Extra |
 +-----------+-------------+------+-----+---------+-------+
@@ -40,18 +33,6 @@ mysql> desc person
 +-----------+-------------+------+-----+---------+-------+
 3 rows in set (0.00 sec)
 
-mysql> create table car
-    -> (Reg_num varchar(10),
-    -> Model varchar(10).year int,
-    -> primary key(Reg_num));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.year int,
-primary key(Reg_num))' at line 3
-mysql> create table car
-    -> (reg_num varchar(10),
-    -> Model varchar(10).year int,
-    -> primary key(reg_num));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.year int,
-primary key(reg_num))' at line 3
 mysql> create table car
     -> (reg_num varchar(10),
     -> Model varchar(10),
@@ -67,26 +48,18 @@ mysql> create table accident
 Query OK, 0 rows affected (0.02 sec)
 
 mysql> create table owns
-    -> (
-    -> Driver_id varchar(10),
+    -> (driver_id varchar(10),
     -> reg_num varchar(10),
-    -> primary key(Driver_id, reg_num),
-    -> foreign key(Driver_id) references person(Driver_id),
-    -> foreign key(reg_num references car(reg_num));
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'references car(reg_num))' at line 7
-mysql> create table owns
-    -> (Driver_id varchar(10),
-    -> reg_num varchar(10),
-    -> primary key(Driver_id, reg_num),
-    -> foreign key(Driver_id) references person(Driver_id),
+    -> primary key(driver_id, reg_num),
+    -> foreign key(driver_id) references person(driver_id),
     -> foreign key(reg_num) references car(reg_num));
 Query OK, 0 rows affected (0.03 sec)
 
 mysql> create table participated
-    -> (Driver_id varchar(10),
+    -> (driver_id varchar(10),
     -> reg_num varchar(10),
     -> Report_num int,
-    -> Damage_amount int,
+    -> damage_amount int,
     -> primary key(Driver_id, reg_num, report_num),
     -> foreign key(Driver_id) references person(driver_id),
     -> foreign key(reg_num) references car(reg_num),
@@ -104,41 +77,25 @@ mysql> desc participated;
 +---------------+-------------+------+-----+---------+-------+
 4 rows in set (0.00 sec)
 
-mysql> insert into person values(
-    -> 'A01',
-    -> 'Richard',
-    -> 'Srinivas Nagar');
+mysql> insert into person values('A01','Richard','Srinivas Nagar');
 Query OK, 1 row affected (0.01 sec)
 
-mysql> insert into person values(
-    -> 'A02',
-    -> 'Pradeep',
-    -> 'Rajajinagar');
+mysql> insert into person values('A02','Pradeep','Rajajinagar');
 Query OK, 1 row affected (0.00 sec)
 
-mysql> insert into person values(
-    -> 'A03',
-    -> 'Smith',
-    -> 'Ashok Nagar');
+mysql> insert into person values('A03','Smith','Ashok Nagar');
 Query OK, 1 row affected (0.00 sec)
 
-mysql> insert into person values(
-    -> 'A04',
-    -> 'Venu',
-    -> 'N R Colony');
+mysql> insert into person values('A04','Venu','N R Colony');
 Query OK, 1 row affected (0.00 sec)
 
-mysql> insert into person values(
-    -> 'A05',
-    -> 'John',
-    -> 'Hanumanth Nagar');
+mysql> insert into person values('A05','John','Hanumanth Nagar');
 Query OK, 1 row affected (0.00 sec)
 
 mysql> commit;
 Query OK, 0 rows affected (0.00 sec)
 
-mysql> select * from person
-    -> ;
+mysql> select * from person;
 +-----------+---------+-----------------+
 | Driver_id | Name    | Address         |
 +-----------+---------+-----------------+
@@ -150,25 +107,19 @@ mysql> select * from person
 +-----------+---------+-----------------+
 5 rows in set (0.00 sec)
 
-mysql> insert into car values(
-    -> 'KA052250','INDICA','1990');
+mysql> insert into car values('KA052250','INDICA','1990');
 Query OK, 1 row affected (0.00 sec)
 
-mysql> insert into car values(
-    -> 'KA031181', 'LANCER','1957');
+mysql> insert into car values('KA031181', 'LANCER','1957');
 Query OK, 1 row affected (0.01 sec)
 
-mysql> insert into car values(
-    -> 'KA095477','TOYOTA','1998');
+mysql> insert into car values('KA095477','TOYOTA','1998');
 Query OK, 1 row affected (0.00 sec)
 
-mysql> insert into car values(
-    -> 'KA053408', 'HONDA',
-    -> '2008');
+mysql> insert into car values('KA053408', 'HONDA','2008');
 Query OK, 1 row affected (0.00 sec)
 
-mysql> insert into car values(
-    -> 'KA041702','AUDI','2005');
+mysql> insert into car values('KA041702','AUDI','2005');
 Query OK, 1 row affected (0.00 sec)
 
 mysql> select * from car;
@@ -186,31 +137,22 @@ mysql> select * from car;
 mysql> commit;
 Query OK, 0 rows affected (0.00 sec)
 
-mysql> insert into accident values(
-    -> '11', '01-jan-03','Mysore road');
-ERROR 1292 (22007): Incorrect date value: '01-jan-03' for column 'Accident_date' at row 1
-mysql> insert into accident values(
-    -> '11','2003-01-01','Mysore Road');
+mysql> insert into accident values('11','2003-01-01','Mysore Road');
 Query OK, 1 row affected (0.00 sec)
 
-mysql> insert into accident values(
-    -> '12', '2004-02-02','South End Circle');
+mysql> insert into accident values('12', '2004-02-02','South End Circle');
 Query OK, 1 row affected (0.00 sec)
 
-mysql> insert into accident values(
-    -> '13','2003-01-21','Bull Temple Road');
+mysql> insert into accident values('13','2003-01-21','Bull Temple Road');
 Query OK, 1 row affected (0.00 sec)
 
-mysql> insert into accident values(
-    -> '14', '2008-02-17','Mysore Road');
+mysql> insert into accident values('14', '2008-02-17','Mysore Road');
 Query OK, 1 row affected (0.00 sec)
 
-mysql> insert into accident values(
-    -> '15','2005-03-04','Kanakpura Road');
+mysql> insert into accident values('15','2005-03-04','Kanakpura Road');
 Query OK, 1 row affected (0.00 sec)
 
-mysql> select * from accident
-    -> ;
+mysql> select * from accident;
 +------------+---------------+------------------+
 | Report_num | Accident_date | location         |
 +------------+---------------+------------------+
@@ -222,36 +164,19 @@ mysql> select * from accident
 +------------+---------------+------------------+
 5 rows in set (0.00 sec)
 
-mysql> insert into own values(
-    -> 'A01','KA052250');
-ERROR 1146 (42S02): Table 'insurance.own' doesn't exist
-mysql> insert into owns values(
-    -> 'A01','KA052250');
+mysql> insert into owns values('A01','KA052250');
 Query OK, 1 row affected (0.00 sec)
 
-mysql> insert into owns values(
-    -> 'A02','KA053408');
+mysql> insert into owns values('A02','KA053408');
 Query OK, 1 row affected (0.00 sec)
 
-mysql> insert into owns values(
-    -> 'A02','KA031181');
+mysql> insert into owns values('A03','KA031181');
 Query OK, 1 row affected (0.00 sec)
 
-mysql> insert into owns values(
-    -> 'A04','KA095477');
+mysql> insert into owns values('A04','KA095477');
 Query OK, 1 row affected (0.00 sec)
 
-mysql> insert into owns values(
-    -> 'A05','KA041702');
-Query OK, 1 row affected (0.00 sec)
-
-mysql> delete from owns values where reg_num = 'KA031181';
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'values where reg_num = 'KA031181'' at line 1
-mysql> delete from owns where reg_num = 'KA031181';
-Query OK, 1 row affected (0.00 sec)
-
-mysql> insert into owns values(
-    -> 'A03','KA031181');
+mysql> insert into owns values('A05','KA041702');
 Query OK, 1 row affected (0.00 sec)
 
 mysql> commit;
@@ -269,11 +194,6 @@ mysql> select * from owns;
 +-----------+----------+
 5 rows in set (0.00 sec)
 
-mysql> select * from owns desc Driver_id;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc Driver_id' at line 1
-mysql> select * from owns where desc Driver_id;
-ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc Driver_id' at line 1
-mysql> desc owns;
 +-----------+-------------+------+-----+---------+-------+
 | Field     | Type        | Null | Key | Default | Extra |
 +-----------+-------------+------+-----+---------+-------+
