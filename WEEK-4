@@ -1,0 +1,47 @@
+3)Find all the customers who have an account at all the branches located in a specific city=(Ex. Delhi).
+
+mysql> select distinct s.customername from depositer as s where not exists((select branch_name from branch where branch_city = 'Delhi') except (select r.branch_name from depositer as t, bankaccount as r
+    -> where t.accno = r.accno
+    -> and S.customername = t.customername));
++--------------+
+| customername |
++--------------+
+| Nikil        |
++--------------+
+1 row in set (0.00 sec)
+
+2)Update THE ANNUAL INTEREST PAYMENTS ARE MADE AND ALL BRANCHES ARE TO BE INCREASED BY 5%.
+
+mysql> update bankaccount set balance=balance*1.05;
+Query OK, 10 rows affected (0.00 sec)
+Rows matched: 10  Changed: 10  Warnings: 0
+
+3) Find the names of all branches that have greater assets than all branches located in Bangalore.
+
+mysql> select branch_name from branch where assets > all (select assets from branch
+    -> where branch_city = 'Bangalore');
+Empty set (0.00 sec)
+
+4)Demonstrate how you delete all account tuples at every branch located in a specific city (Ex. Bombay).
+mysql> delete from bankaccount
+    -> where branch_name in (
+    -> select branch_name from branch
+    -> where branch_city = 'Bombay');
+Query OK, 2 rows affected (0.00 sec)
+
+mysql> select *from bankaccount;
++-------+-------------------+---------+
+| Accno | Branch_name       | Balance |
++-------+-------------------+---------+
+|     1 | SBI_Chamrajpet    |    2100 |
+|     2 | SBI_ResidencyRoad |    5250 |
+|     4 | SBI_ParlimentRoad |    9450 |
+|     5 | SBI_Jantarmantar  |    8400 |
+|     8 | SBI_ResidencyRoad |    4200 |
+|     9 | SBI_ParlimentRoad |    3150 |
+|    10 | SBI_ResidencyRoad |    5250 |
+|    11 | SBI_Jantarmantar  |    2100 |
++-------+-------------------+---------+
+8 rows in set (0.00 sec)
+
+mysql>
