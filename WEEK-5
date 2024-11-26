@@ -283,7 +283,7 @@ mysql>select empno from emp where empno not in (select empno from incentives);
 +-------+
 
 Increase income of all employees by 5% in a table.
-mysql>update emp set sal=(sal*0.5)+sal;
+mysql>update emp set sal=(sal*0.05)+sal;
 Query OK, 13 rows affected (0.00 sec)
 Rows matched: 13  Changed: 13  Warnings: 0
 
