@@ -249,4 +249,69 @@ mysql> select *from assigned_to;
 +-------+-----+--------------------+
 10 rows in set (0.00 sec)
 
-mysql>
+WEEK 5 EXTENDED :
+Retrieve the employee numbers of all employees who work on project located in Bengaluru, Hyderabad, or Mysuru
+mysql>select e.empno from emp e, assigned_to a, project p where e.empno=a.empno and a.pno=p.pno and p
+.ploc in ('Bengaluru','mysuru','hyderabad');
++-------+
+| empno |
++-------+
+|  7499 |
+|  7499 |
+|  7521 |
+|  7521 |
+|  7566 |
+|  7654 |
+|  7654 |
+|  7698 |
+|  7839 |
++-------+
+
+Get Employee ID’s of those employees who didn’t receive incentives
+mysql>select empno from emp where empno not in (select empno from incentives);
++-------+
+| empno |
++-------+
+|  7369 |
+|  7782 |
+|  7788 |
+|  7839 |
+|  7844 |
+|  7876 |
+|  7900 |
+|  7902 |
++-------+
+
+Increase income of all employees by 5% in a table.
+mysql>update emp set sal=(sal*0.5)+sal;
+Query OK, 13 rows affected (0.00 sec)
+Rows matched: 13  Changed: 13  Warnings: 0
+
+mysql> select * from emp;
++-------+---------+--------+------------+-----------+--------+
+| empno | ename   | mgr_no | hiredate   | sal       | deptno |
++-------+---------+--------+------------+-----------+--------+
+|  7369 | Adarsh  |   7902 | 2012-12-17 | 120000.00 |     20 |
+|  7499 | Shruthi |   7698 | 2013-02-20 |  24000.00 |     30 |
+|  7521 | Anvitha |   7698 | 2015-02-22 |  18750.00 |     30 |
+|  7566 | Tanvir  |   7839 | 2008-04-02 |  44625.00 |     20 |
+|  7654 | Ramesh  |   7698 | 2014-09-28 |  18750.00 |     30 |
+|  7698 | Kumar   |   7839 | 2015-05-01 |  42750.00 |     30 |
+|  7782 | CLARK   |   7839 | 2017-06-09 |  36750.00 |     10 |
+|  7788 | SCOTT   |   7566 | 2010-12-09 |  45000.00 |     20 |
+|  7839 | KING    |   NULL | 2009-11-17 | 750000.00 |     10 |
+|  7844 | TURNER  |   7698 | 2010-09-08 |  22500.00 |     30 |
+|  7876 | ADAMS   |   7788 | 2013-01-12 |  16500.00 |     20 |
+|  7900 | JAMES   |   7698 | 2017-12-03 |  14250.00 |     30 |
+|  7902 | FORD    |   7566 | 2010-12-03 |  45000.00 |     20 |
++-------+---------+--------+------------+-----------+--------+
+
+Find the names of employee starting with “A”
+mysql>select ename from emp where ename like 'A%';
++---------+
+| ename   |
++---------+
+| Adarsh  |
+| Anvitha |
+| ADAMS   |
++---------+
